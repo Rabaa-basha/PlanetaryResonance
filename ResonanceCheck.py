@@ -1,3 +1,9 @@
+__author__ = "Samantha Lawler"
+__copyright__ = "Copyright 2020"
+__version__ = "1.0.0"
+__maintainer__ = "Rabaa"
+__email__ = "beborabaa@gmail.com"
+
 import sys
 import numpy as np
 import os
