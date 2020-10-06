@@ -61,7 +61,7 @@ class TestParticle:
             if IsIt == 0 and (ResSemiMajorAxis + 2) > np.average(SemiMajorAxis) > (ResSemiMajorAxis - 2):
                 phi = (float(pp[jj]) * λ - float(qq[jj]) * Longitude - (float(pp[jj]) - float(qq[jj])) * Pomega) % 360
 
-                AngleRange = np.arange(0, 360, 15)  # Array of angles 5 degrees increment each step
+                AngleRange = np.arange(0, 360, 15)  # Array of angles 15 degrees increment each step
                 Window = int(0)
                 Loop = 0
 
