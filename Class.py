@@ -1,7 +1,6 @@
 import numpy as np
-import resonance
 import sys
-
+import matplotlib.pyplot as plt
 
 class TestParticle:
     def __init__(self):  # Attributes defined
@@ -61,7 +60,7 @@ class TestParticle:
             if IsIt == 0 and (ResSemiMajorAxis + 2) > np.average(SemiMajorAxis) > (ResSemiMajorAxis - 2):
                 phi = (float(pp[jj]) * λ - float(qq[jj]) * Longitude - (float(pp[jj]) - float(qq[jj])) * Pomega) % 360
 
-                AngleRange = np.arange(0, 360, 15)  # Array of angles 15 degrees increment each step
+                AngleRange = np.arange(0, 360, 15)  # Array of angles 5 degrees increment each step
                 Window = int(0)
                 Loop = 0
 
@@ -107,9 +106,9 @@ class TestParticle:
                     # If checking for Kozai, we only want one window
                     WindowStep = int(NumberOfLines)
                     IsItArray = np.zeros(int(len(
-                        SemiMajorAxis) / WindowStep))  # For Kozai we check SMA
+                        ω) / WindowStep))  # For Kozai we check SMA
                     CenterArray = np.zeros(int(len(
-                        SemiMajorAxis) / WindowStep))
+                        ω) / WindowStep))
 
                     while Window + WindowStep < len(SemiMajorAxis):
                         WindowSMA = SemiMajorAxis[Window:Window + WindowStep]  # Phi of next window
@@ -132,9 +131,15 @@ class TestParticle:
                         Amplitude = np.average(IsItArray)
                         Center = np.average(CenterArray)
                         Name = str(pp[jj]) + ':' + str(qq[jj])
+                        # Check if Resonance center is having large range
+                        MaxCenter = max(CenterArray)
+                        MinCenter = min(CenterArray)
+                        if (MaxCenter - MinCenter) > 100:
+                            IsIt = False
                         break
                     else:
-                        Amplitude = 999.  # Ask about the reason of this one
+                        Amplitude = 999.
+                        CenterArray = 0
 
         if typeOfData == 0:
             IsItResonant = IsIt
@@ -142,11 +147,7 @@ class TestParticle:
             ResonanceCenter = Center
             ResonanceName = Name
 
-            # Check if Resonance center is having large range
-            MaxCenter = max(CenterArray)
-            MinCenter = min(CenterArray)
-            if (MaxCenter - MinCenter) > 100:
-                IsItResonant = False
+
 
             self.Resonant = IsItResonant
             self.ResonanceAmplitude = ResonanceAmplitude
@@ -167,6 +168,12 @@ class TestParticle:
         self.AverageInclination = np.average(Inclination)
         self.AverageSMA = np.average(SemiMajorAxis)
 
+        SemiMajorAxis = SemiMajorAxis % 360
+
+        # plt.scatter(TestParticleTime, ω, s=1)
+        # plt.xlabel('Time / Myr')
+        # plt.ylabel('SMA / AU')
+        # plt.show()
         return
 
     ############################################   IDENTIFY RESONANCE   ##############################################
